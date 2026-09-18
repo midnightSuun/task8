@@ -1,0 +1,58 @@
+/* eslint-disable */
+import * as types from './graphql';
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+
+/**
+ * Map of all GraphQL operations in the project.
+ *
+ * This map has several performance disadvantages:
+ * 1. It is not tree-shakeable, so it will include all operations in the project.
+ * 2. It is not minifiable, so the string of a GraphQL query will be multiple times inside the bundle.
+ * 3. It does not support dead code elimination, so it will add unused operations.
+ *
+ * Therefore it is highly recommended to use the babel or swc plugin for production.
+ * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
+ */
+type Documents = {
+    "mutation Login($auth: AuthInput!) {\n  login(auth: $auth) {\n    access_token\n    refresh_token\n  }\n}": typeof types.LoginDocument,
+    "query GetUser($id: ID!) {\n  user(userId: $id) {\n    id\n    email\n    role\n    profile {\n      first_name\n      last_name\n      avatar\n    }\n  }\n}": typeof types.GetUserDocument,
+    "query GetUsers($params: SearchPaginationInput) {\n  users(params: $params) {\n    items {\n      id\n      email\n    }\n    limit\n  }\n}": typeof types.GetUsersDocument,
+};
+const documents: Documents = {
+    "mutation Login($auth: AuthInput!) {\n  login(auth: $auth) {\n    access_token\n    refresh_token\n  }\n}": types.LoginDocument,
+    "query GetUser($id: ID!) {\n  user(userId: $id) {\n    id\n    email\n    role\n    profile {\n      first_name\n      last_name\n      avatar\n    }\n  }\n}": types.GetUserDocument,
+    "query GetUsers($params: SearchPaginationInput) {\n  users(params: $params) {\n    items {\n      id\n      email\n    }\n    limit\n  }\n}": types.GetUsersDocument,
+};
+
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ *
+ *
+ * @example
+ * ```ts
+ * const query = graphql(`query GetUser($id: ID!) { user(id: $id) { name } }`);
+ * ```
+ *
+ * The query argument is unknown!
+ * Please regenerate the types.
+ */
+export function graphql(source: string): unknown;
+
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation Login($auth: AuthInput!) {\n  login(auth: $auth) {\n    access_token\n    refresh_token\n  }\n}"): (typeof documents)["mutation Login($auth: AuthInput!) {\n  login(auth: $auth) {\n    access_token\n    refresh_token\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query GetUser($id: ID!) {\n  user(userId: $id) {\n    id\n    email\n    role\n    profile {\n      first_name\n      last_name\n      avatar\n    }\n  }\n}"): (typeof documents)["query GetUser($id: ID!) {\n  user(userId: $id) {\n    id\n    email\n    role\n    profile {\n      first_name\n      last_name\n      avatar\n    }\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query GetUsers($params: SearchPaginationInput) {\n  users(params: $params) {\n    items {\n      id\n      email\n    }\n    limit\n  }\n}"): (typeof documents)["query GetUsers($params: SearchPaginationInput) {\n  users(params: $params) {\n    items {\n      id\n      email\n    }\n    limit\n  }\n}"];
+
+export function graphql(source: string) {
+  return (documents as any)[source] ?? {};
+}
+
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;

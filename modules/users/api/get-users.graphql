@@ -1,0 +1,9 @@
+query GetUsers($params: SearchPaginationInput) {
+  users(params: $params) {
+    items {
+      id
+      email
+    }
+    limit
+  }
+}
