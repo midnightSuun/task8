@@ -8,6 +8,6 @@ const config: CodegenConfig = {
       preset: "client",
     },
   },
-};
+}
 
 export default config

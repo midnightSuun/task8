@@ -1,20 +1,20 @@
 import { getUser } from "../api/get-user"
 
 type Props = {
-    userId: string
+  userId: string
 }
 
-export async function UserPage({ userId }: Props){
-    const user = await getUser(userId)
+export async function UserPage({ userId }: Props) {
+  const user = await getUser(userId)
 
-    return (
-        <div>
-            <h1>User</h1>
-            <p>{user.email}</p>
-            <p>{user.role}</p>
-            <p>{user.profile.first_name}</p>
-            <p>{user.profile.last_name}</p>
-            <p>{user.profile.avatar}</p>
-        </div>
-    )
+  return (
+    <div>
+      <h1>User</h1>
+      <p>{user.email}</p>
+      <p>{user.role}</p>
+      <p>{user.profile.first_name}</p>
+      <p>{user.profile.last_name}</p>
+      <p>{user.profile.avatar}</p>
+    </div>
+  )
 }

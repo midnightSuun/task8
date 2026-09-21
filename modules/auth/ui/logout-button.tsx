@@ -3,6 +3,5 @@
 import { logout } from "../api/logout"
 
 export const LogoutButton = () => {
-
-    return <button onClick={logout}>Logout</button>
+  return <button onClick={logout}>Logout</button>
 }
