@@ -1,11 +1,14 @@
 import Link from "next/link"
-
 import { LogoutButton } from "@/modules/auth/ui/logout-button"
-
 import { getUsers } from "../api/get-users"
 
-export async function UsersPage() {
-  const users = await getUsers()
+type Props = {
+  limit: number
+  page: number
+}
+
+export async function UsersPage({ limit, page } : Props) {
+  const users = await getUsers(limit, page)
 
   return (
     <>

@@ -1,10 +1,10 @@
 import { GetUsersDocument } from "@/gql/graphql"
 import { getGql } from "@/lib/graphql"
 
-export async function getUsers() {
+export async function getUsers(limit: number, page: number) {
   const gql = await getGql()
   const data = await gql.request(GetUsersDocument, {
-    params: { limit: 1000, page: 1 },
+    params: { limit, page },
   })
 
   return data.users.items
