@@ -1,18 +1,21 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
+import { isAuthorized } from './modules/auth'
+
+function isPublic(route: string) {
+  return ["/login", "/logout"].includes(route)
+}
  
 export async function proxy(request: NextRequest) {
-  const cookieStore = await cookies()
-  const isAuthorized = !!cookieStore.get("access_token")
+  const isAuthorizedResult = await isAuthorized()
 
   const targetPage = request.nextUrl.pathname
 
-  if (isAuthorized && targetPage === "/login" ) {
+  if (isAuthorizedResult && isPublic(targetPage) ) {
     return NextResponse.redirect(new URL("/", request.url))
   }
 
-  if (!isAuthorized && targetPage !== "/login" ) {
+  if (!isAuthorizedResult && !isPublic(targetPage) ) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
 

@@ -2,7 +2,8 @@
 
 import { LoginDocument } from "@/gql/graphql"
 import { getGql } from "@/lib/graphql"
-import { setAccessToken, setRefreshToken } from "./tokens"
+import { setTokens } from "../helpers/tokens"
+import { redirect } from "next/navigation"
 
 type Params = {
     email: string
@@ -13,6 +14,7 @@ export async function login({ email, password }: Params) {
     const gql = await getGql()
     const data = await gql.request(LoginDocument, { auth: { email, password } })
 
-    await setAccessToken(data.login.access_token)
-    await setRefreshToken(data.login.refresh_token)
+    await setTokens(data.login.access_token, data.login.refresh_token)
+
+    redirect("/")
 }
