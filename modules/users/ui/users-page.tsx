@@ -1,7 +1,9 @@
 import { LogoutButton } from "@/modules/auth/ui/logout-button"
-import Link from "next/link"
 import { getUsers } from "../api/get-users"
-import { SearchInput } from "./search-input"
+import { SearchInput } from "@/components/search-input"
+import Link from "next/link"
+import { Pagination } from "@/components/pagination"
+import { Suspense } from "react"
 
 type Props = {
   limit: number
@@ -9,15 +11,11 @@ type Props = {
   search: string
 }
 
-export async function UsersPage({ limit, page, search }: Props) {
+async function UsersPageAsyncBoundary({ limit, page, search }: Props) {
   const { users, totalPages } = await getUsers(limit, page, search)
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <SearchInput limit={limit} search={search} />
-        <LogoutButton />
-      </div>
       <ul>
         {users.map((user) => (
           <li key={user.id}>
@@ -25,17 +23,31 @@ export async function UsersPage({ limit, page, search }: Props) {
           </li>
         ))}
       </ul>
+      <Pagination
+        page={page}
+        limit={limit}
+        totalPages={totalPages}
+        path="/users"
+        search={search}
+      />
+    </>
 
-      <div className="flex items-center gap-2">
-        {page > 1 && (
-          <Link href={`/users?page=${page - 1}&limit=${limit}`}>Previous</Link>
-        )}
-        <span>{page}</span>
-        {page < totalPages && (
-          <Link href={`/users?page=${page + 1}&limit=${limit}`}>Next</Link>
-        )}
-        <span>{totalPages}</span>
+  )
+}
+
+export function UsersPage({ limit, page, search }: Props) {
+  
+  return (
+    <>
+      <div className="flex items-center justify-between">
+        <SearchInput limit={limit} search={search} />
+        <LogoutButton />
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Create user</button>
       </div>
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <UsersPageAsyncBoundary limit={limit} page={page} search={search} />
+      </Suspense>
     </>
   )
 }
