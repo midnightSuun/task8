@@ -12,14 +12,22 @@ const baseCookieOptions = {
   path: "/",
 }
 
+export const accessTokenCookie = (accessToken: string) => ({
+  name: ACCESS_TOKEN_COOKIE,
+  value: accessToken,
+  ...baseCookieOptions,
+  maxAge: ACCESS_TOKEN_MAX_AGE,
+})
+
+export const refreshTokenCookie = (refreshToken: string) => ({
+  name: REFRESH_TOKEN_COOKIE,
+  value: refreshToken,
+  ...baseCookieOptions,
+  maxAge: REFRESH_TOKEN_MAX_AGE,
+})
+
 export const setTokens = async (accessToken: string, refreshToken: string) => {
   const cookieStore = await cookies()
-  cookieStore.set(ACCESS_TOKEN_COOKIE, accessToken, {
-    ...baseCookieOptions,
-    maxAge: ACCESS_TOKEN_MAX_AGE,
-  })
-  cookieStore.set(REFRESH_TOKEN_COOKIE, refreshToken, {
-    ...baseCookieOptions,
-    maxAge: REFRESH_TOKEN_MAX_AGE,
-  })
+  cookieStore.set(accessTokenCookie(accessToken))
+  cookieStore.set(refreshTokenCookie(refreshToken))
 }
