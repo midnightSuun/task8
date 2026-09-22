@@ -21,7 +21,7 @@ export const getGql = async () => {
     const refreshToken = cookieStore.get(REFRESH_TOKEN_COOKIE)?.value
 
     if (refreshToken) {
-      await refresh()
+      await refresh(refreshToken)
       token = cookieStore.get(ACCESS_TOKEN_COOKIE)?.value
     }
   }

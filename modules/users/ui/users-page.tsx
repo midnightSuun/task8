@@ -1,17 +1,23 @@
-import Link from "next/link"
 import { LogoutButton } from "@/modules/auth/ui/logout-button"
+import Link from "next/link"
 import { getUsers } from "../api/get-users"
+import { SearchInput } from "./search-input"
 
 type Props = {
   limit: number
   page: number
+  search: string
 }
 
-export async function UsersPage({ limit, page }: Props) {
-  const { users, totalPages } = await getUsers(limit, page)
+export async function UsersPage({ limit, page, search }: Props) {
+  const { users, totalPages } = await getUsers(limit, page, search)
 
   return (
     <>
+      <div className="flex items-center justify-between">
+        <SearchInput limit={limit} search={search} />
+        <LogoutButton />
+      </div>
       <ul>
         {users.map((user) => (
           <li key={user.id}>
@@ -30,8 +36,6 @@ export async function UsersPage({ limit, page }: Props) {
         )}
         <span>{totalPages}</span>
       </div>
-
-      <LogoutButton />
     </>
   )
 }

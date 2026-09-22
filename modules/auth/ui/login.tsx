@@ -13,9 +13,9 @@ export function Login() {
   }
 
   return (
-    <div>
-      <button onClick={onLogin}>Login</button>
-      <button onClick={onLogout}>Logout</button>
+    <div className="flex items-center gap-2">
+      <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={onLogin}>Login</button>
+      <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={onLogout}>Logout</button>
     </div>
   )
 }
