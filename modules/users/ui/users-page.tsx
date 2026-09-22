@@ -7,8 +7,8 @@ type Props = {
   page: number
 }
 
-export async function UsersPage({ limit, page } : Props) {
-  const users = await getUsers(limit, page)
+export async function UsersPage({ limit, page }: Props) {
+  const { users, totalPages } = await getUsers(limit, page)
 
   return (
     <>
@@ -19,6 +19,18 @@ export async function UsersPage({ limit, page } : Props) {
           </li>
         ))}
       </ul>
+
+      <div className="flex items-center gap-2">
+        {page > 1 && (
+          <Link href={`/users?page=${page - 1}&limit=${limit}`}>Previous</Link>
+        )}
+        <span>{page}</span>
+        {page < totalPages && (
+          <Link href={`/users?page=${page + 1}&limit=${limit}`}>Next</Link>
+        )}
+        <span>{totalPages}</span>
+      </div>
+
       <LogoutButton />
     </>
   )

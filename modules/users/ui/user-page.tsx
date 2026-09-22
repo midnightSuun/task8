@@ -14,7 +14,7 @@ export async function UserPage({ userId }: Props) {
       <p>{user.role}</p>
       <p>{user.profile.first_name}</p>
       <p>{user.profile.last_name}</p>
-      <p>{user.profile.avatar}</p>
+      <img src={user.profile.avatar ?? ""} alt={user.profile.first_name ?? ""} className="w-25 h-30" />
     </div>
   )
 }

@@ -7,5 +7,8 @@ export async function getUsers(limit: number, page: number) {
     params: { limit, page },
   })
 
-  return data.users.items
+  return {
+    users: data.users.items,
+    totalPages: data.users.total_pages
+  }
 }
